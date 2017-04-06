@@ -1,0 +1,51 @@
+\documentclass[10pt]{article}
+
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx, epsfig}
+
+
+
+\oddsidemargin = -1 cm
+\textwidth = 17 cm
+\topmargin = -1.5 cm
+\textheight = 23 cm
+\title{Neural networks}
+
+\begin{document}
+\maketitle
+
+\section{Back-propagation algorithm}
+Neural network consisting of $L$ layers:
+\begin{itemize}
+	\item $C$ -- cost function
+	\item $z_{j}^l$ -- weighted input to neuron $j$ in layer $l$ of the neural network
+	\item $\sigma$ -- neuron activation function
+	\item $w^{l}_{jk}$ -- weight connecting neuron $j$ in layer $l$ to neuron $k$ in layer $l-1$
+	\item $b^{l}_j$ -- bias of neuron $j$ in layer $l$
+	\item $a^{l}_j$ -- output of neuron $j$ in layer $l$
+\end{itemize}
+
+Neuron output is related to neuron weighted input as
+\begin{align}
+a^l_j = \sigma\left(z^l_j\right)=\sigma\left(\sum_k w^l_{jk} a^{l-1}_k + b^l_j\right).
+\end{align}
+
+Error of neuron $j$ in last layer is
+\begin{align}
+\delta_j^L = \frac{\partial C}{\partial z_j^L} = \sum_k \frac{\partial C}{\partial a_k^L} \frac{\partial a_k^L}{\partial z_j^L} = \frac{\partial C}{\partial a_j^L} \frac{\partial a_j^L}{\partial z_j^L} = \frac{\partial C}{\partial a_j^L} \, \sigma'\left(z_j^L\right)
+\end{align}
+
+Error of neuron $j$ in layer $l$ is 
+\begin{align*}
+\delta_j^l = \frac{\partial C}{z_j^l} = \sum_k \frac{\partial C}{\partial z_k^{l+1}} \frac{\partial z_k^{l+1}}{\partial z_j^l}
+\end{align*}
+Taking into account that
+\begin{align*}
+z_k^{l+1} = \sum_n w^{l+1}_{k n} a^l_n + b^{l+1}_k = \sum_n w^{l+1}_{k n} \sigma(z_n^l) + b^{l+1}_k
+\end{align*}
+Finally
+\begin{align}
+\delta_j^l = \sum_k \frac{\partial C}{\partial z_k^{l+1}} \frac{\partial}{\partial z_j^l} \left(\sum_n w^{l+1}_{k n} \sigma(z_n^l) + b^{l+1}_k\right) = \sum_k \delta^{l+1}_k w^{l+1}_{k j}  \sigma'(z_j^l)
+\end{align}
+
+\end{document}
